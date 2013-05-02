@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -e
+
+root_branch="$1"
+shift
+text="$@"
+
+# Sanitize.
+text="${text//[ \".\/\\]/_}"
+last_idx="$((${#text} - 1))"
+
+git branch boom0 "$root_branch"
+
+for i in $(seq 0 "$last_idx"); do
+	c="${text:$i:1}"
+
+	git checkout "boom$i"
+
+	if [[ "$i" == "$last_idx" ]]; then
+		# Loop it!
+		next_branch="boom0"
+	else
+		next_branch="boom$(($i + 1))"
+
+		git branch "$next_branch"
+	fi
+
+	git submodule add -b "$next_branch" --name "boom${i}" ./ "$c"
+	git commit -m "Bomb part ${i}"
+
+	git checkout "$root_branch"
+done
+
+git checkout boom0
