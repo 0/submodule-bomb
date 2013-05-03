@@ -1,3 +1,4 @@
-[submodule "s"]
-	path = s
+[submodule "boom!"]
+	path = It_goes
 	url = ./
+	branch = boom0
