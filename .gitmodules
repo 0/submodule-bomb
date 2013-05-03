@@ -1,0 +1,4 @@
+[submodule "boom5"]
+	path = a
+	url = ./
+	branch = boom6
